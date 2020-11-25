@@ -1,0 +1,86 @@
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+body {
+  margin: 0;
+  background-color: #CCC;
+  height: 50vh;
+  overflow: hidden;
+}
+
+.lanes {
+  display: flex;
+  justify-content: center;
+  padding: .5rem;
+  height: 100%;
+}
+
+.lane {
+  display: flex;
+  flex-direction: column;
+  background-color: #AAA;
+  flex-basis: 0;
+  flex-grow: 1;
+  margin: .25rem;
+  border-radius: .25rem;
+  overflow: hidden;
+  max-width: 16rem;
+}
+
+.header {
+  text-align: center;
+  background-color: #333;
+  color: white;
+  padding: .25rem;
+}
+
+.tasks {
+  padding: 0 .25rem;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.task {
+  padding: .25rem;
+  border-radius: .25rem;
+  background-color: white;
+  cursor: grab;
+  margin: .25rem 0;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.task-input {
+  padding: .3rem .5rem;
+  border: none;
+  background-color: #333;
+  color: white;
+  outline: none;
+  width: 100%;
+}
+
+.task-input::placeholder {
+  color: #AAA;
+}
+
+[data-draggable] {
+  user-select: none;
+}
+
+[data-draggable].hide {
+  display: none !important;
+}
+
+[data-draggable].dragging {
+  position: absolute;
+  opacity: .5;
+  transform: rotate(5deg);
+  pointer-events: none;
+}
+
+[data-draggable].ghost {
+  background-color: black;
+  opacity: .25;
+}
