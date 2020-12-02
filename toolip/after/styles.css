@@ -1,0 +1,62 @@
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 2rem;
+}
+
+body {
+  margin: 0;
+}
+
+.container.x-left {
+  justify-content: flex-start;
+}
+
+.container.x-right {
+  justify-content: flex-end;
+}
+
+.container.x-center {
+  justify-content: center;
+}
+
+.container.y-top {
+  align-items: flex-start;
+}
+
+.container.y-bottom {
+  align-items: flex-end;
+}
+
+.container.y-center {
+  align-items: center;
+}
+
+.help-text {
+  border-bottom: 3px dotted blue;
+}
+
+.tooltip-container {
+  position: fixed;
+  pointer-events: none;
+  margin: 0;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+}
+
+.tooltip {
+  position: absolute;
+  padding: .4rem;
+  border: 1px solid black;
+  border-radius: .25rem;
+  font-size: .75rem;
+  max-width: 200px;
+}
