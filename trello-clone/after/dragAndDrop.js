@@ -24,18 +24,12 @@ function setupDragItems(selectedItem, itemClone, ghost, e) {
   positionClone(itemClone, e, offset)
   document.body.append(itemClone)
 
+  ghost.style.height = `${originalRect.height}px`
   ghost.classList.add("ghost")
   ghost.innerHTML = ""
-  ghost.style.height = `${originalRect.height}px`
   selectedItem.parentElement.insertBefore(ghost, selectedItem)
 
   return offset
-}
-
-function cancelDrag(selectedItem, itemClone, ghost) {
-  selectedItem.classList.remove("hide")
-  itemClone.remove()
-  ghost.remove()
 }
 
 function setupDragEvents(
@@ -45,28 +39,26 @@ function setupDragEvents(
   offset,
   onDragComplete
 ) {
-  const mousemoveFunction = e => {
+  const mouseMoveFunction = e => {
     const dropZone = getDropZone(e.target)
-    if (dropZone != null) {
-      const closestChild = Array.from(dropZone.children).find(child => {
-        const rect = child.getBoundingClientRect()
-        return e.clientY < rect.top + rect.height / 2
-      })
-      if (closestChild != null) {
-        dropZone.insertBefore(ghost, closestChild)
-      } else {
-        dropZone.append(ghost)
-      }
-    }
     positionClone(itemClone, e, offset)
+    if (dropZone == null) return
+    const closestChild = Array.from(dropZone.children).find(child => {
+      const rect = child.getBoundingClientRect()
+      return e.clientY < rect.top + rect.height / 2
+    })
+    if (closestChild != null) {
+      dropZone.insertBefore(ghost, closestChild)
+    } else {
+      dropZone.append(ghost)
+    }
   }
 
-  document.addEventListener("mousemove", mousemoveFunction)
+  document.addEventListener("mousemove", mouseMoveFunction)
   document.addEventListener(
     "mouseup",
     () => {
-      document.removeEventListener("mousemove", mousemoveFunction)
-
+      document.removeEventListener("mousemove", mouseMoveFunction)
       const dropZone = getDropZone(ghost)
       if (dropZone) {
         onDragComplete({
@@ -77,15 +69,22 @@ function setupDragEvents(
         })
         dropZone.insertBefore(selectedItem, ghost)
       }
-      cancelDrag(selectedItem, itemClone, ghost)
+
+      stopDrag(selectedItem, itemClone, ghost)
     },
     { once: true }
   )
 }
 
-function positionClone(clone, mousePosition, offset) {
-  clone.style.top = `${mousePosition.clientY - offset.y}px`
-  clone.style.left = `${mousePosition.clientX - offset.x}px`
+function positionClone(itemClone, mousePosition, offset) {
+  itemClone.style.top = `${mousePosition.clientY - offset.y}px`
+  itemClone.style.left = `${mousePosition.clientX - offset.x}px`
+}
+
+function stopDrag(selectedItem, itemClone, ghost) {
+  selectedItem.classList.remove("hide")
+  itemClone.remove()
+  ghost.remove()
 }
 
 function getDropZone(element) {
