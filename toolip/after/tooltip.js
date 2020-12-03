@@ -2,13 +2,14 @@ import addGlobalEventListener from "./utils/addGlobalEventListener"
 
 const DEFAULT_SPACING = 5
 const TOOLTIP_MAX_WIDTH = 200
+const POSITION_ORDER = ["top", "bottom", "right", "left"]
 const POSITION_TO_FUNCTION_MAP = {
   top: positionTooltipTop,
   bottom: positionTooltipBottom,
   left: positionTooltipLeft,
   right: positionTooltipRight
 }
-const POSITION_ORDER = ["top", "bottom", "right", "left"]
+
 const tooltipContainer = document.createElement("div")
 tooltipContainer.classList.add("tooltip-container")
 tooltipContainer.append(document.createElement("div"))
