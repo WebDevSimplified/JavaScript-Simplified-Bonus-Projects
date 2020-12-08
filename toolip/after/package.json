@@ -1,7 +1,6 @@
 {
-  "name": "after",
+  "name": "current-project-2",
   "version": "1.0.0",
-  "description": "",
   "main": "script.js",
   "scripts": {
     "start": "parcel index.html",
@@ -10,6 +9,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "",
   "devDependencies": {
     "parcel-bundler": "^1.12.4"
   }

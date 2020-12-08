@@ -58,4 +58,5 @@ body {
   border: 1px solid black;
   border-radius: .25rem;
   font-size: .75rem;
+  max-width: 200px;
 }
