@@ -1,21 +1,5 @@
-import {
-  joinRoom,
-  readyUp,
-  onStartGuesser,
-  onGuess,
-  makeGuess,
-  onStartDrawer,
-  draw,
-  onDraw,
-  onWinner
-} from "./socket"
-import {
-  setup as setupCanvas,
-  drawLine,
-  toCanvasSpace,
-  normalizeCoords,
-  clearCanvas
-} from "./draw"
+import DrawableCanvas from "./DrawableCanvas.js"
+import { io } from "socket.io-client"
 
 const urlParams = new URLSearchParams(window.location.search)
 const name = urlParams.get("name")
@@ -23,6 +7,7 @@ const roomId = urlParams.get("room-id")
 
 if (!name || !roomId) window.location = "/index.html"
 
+const socket = io(process.env.SERVER_URL)
 const guessForm = document.querySelector("[data-guess-form]")
 const guessInput = document.querySelector("[data-guess-input]")
 const wordElement = document.querySelector("[data-word]")
@@ -31,39 +16,36 @@ const readyButton = document.querySelector("[data-ready-btn]")
 const guessTemplate = document.querySelector("[data-guess-template]")
 const canvas = document.querySelector("[data-canvas]")
 
-joinRoom(roomId, name)
-onStartGuesser(startRoundGuesser)
-onStartDrawer(startRoundDrawer)
-onGuess(displayGuess)
-onDraw((prevPosition, currentPosition) => {
-  console.log(prevPosition, currentPosition)
-  drawLine(
-    canvas,
-    toCanvasSpace(canvas, prevPosition),
-    toCanvasSpace(canvas, currentPosition)
-  )
-})
-onWinner(endRound)
+const drawableCanvas = new DrawableCanvas(canvas, socket)
+
+socket.emit("join-room", { name: name, roomId: roomId })
+socket.on("start-guesser", startRoundGuesser)
+socket.on("start-drawer", startRoundDrawer)
+socket.on("guess", displayGuess)
+socket.on("winner", endRound)
 endRound()
 resizeCanvas()
+setupButtonEvents()
 
-readyButton.addEventListener("click", () => {
-  hide(readyButton)
-  readyUp()
-})
+function setupButtonEvents() {
+  readyButton.addEventListener("click", () => {
+    hide(readyButton)
+    socket.emit("ready")
+  })
 
-guessForm.addEventListener("submit", e => {
-  e.preventDefault()
+  guessForm.addEventListener("submit", e => {
+    e.preventDefault()
 
-  if (guessInput.value === "") return
+    if (guessInput.value === "") return
 
-  makeGuess(guessInput.value)
-  displayGuess(name, guessInput.value)
+    socket.emit("make-guess", { guess: guessInput.value })
+    displayGuess(name, guessInput.value)
 
-  guessInput.value = ""
-})
+    guessInput.value = ""
+  })
 
-window.addEventListener("resize", resizeCanvas)
+  window.addEventListener("resize", resizeCanvas)
+}
 
 function resizeCanvas() {
   canvas.width = null
@@ -73,30 +55,21 @@ function resizeCanvas() {
   canvas.height = clientDimensions.height
 }
 
-let teardownCanvas
 function startRoundDrawer(word) {
-  hide(readyButton)
+  drawableCanvas.canDraw = true
   show(messagesElement)
-  clearCanvas(canvas)
-  teardownCanvas = setupCanvas(canvas, (prevPosition, currentPosition) => {
-    draw(
-      normalizeCoords(canvas, prevPosition),
-      normalizeCoords(canvas, currentPosition)
-    )
-  })
+  drawableCanvas.clearCanvas(canvas)
 
   wordElement.innerText = word
   messagesElement.innerHTML = ""
 }
 
 function startRoundGuesser() {
-  hide(readyButton)
   show(guessForm)
   show(guessInput)
   show(messagesElement)
   hide(wordElement)
-  clearCanvas(canvas)
-  if (teardownCanvas) teardownCanvas()
+  drawableCanvas.clearCanvas(canvas)
 
   wordElement.innerText = ""
   messagesElement.innerHTML = ""
@@ -108,6 +81,8 @@ function endRound(name, word) {
     show(wordElement)
     displayGuess(null, `${name} is the winner`)
   }
+
+  drawableCanvas.canDraw = false
   show(readyButton)
   hide(guessForm)
   hide(guessInput)
