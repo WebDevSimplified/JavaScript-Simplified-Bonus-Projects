@@ -1,0 +1,45 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.submit-btn {
+  width: 100%;
+  color: white;
+  background-color: #333;
+  border: none;
+  cursor: pointer;
+  padding: .5rem 1rem;
+}
+
+.submit-btn:hover {
+  background-color: #555;
+}
+
+form {
+  max-width: 300px;
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: .75rem;
+}
+
+.form-group > label {
+  font-weight: bold;
+  font-size: .8rem;
+  color: #555;
+}
+
+.form-group > input {
+  font-size: 1rem;
+}

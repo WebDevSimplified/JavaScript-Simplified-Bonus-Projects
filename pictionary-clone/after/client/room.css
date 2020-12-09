@@ -1,0 +1,96 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding: .5rem;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  background-color: #333;
+}
+
+.game-board {
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  display: block;
+}
+
+.text-section {
+  margin-left: .5rem;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  flex-grow: 0;
+  width: 170px;
+}
+
+.word {
+  margin: 0;
+  margin-bottom: .25rem;
+  color: white;
+  text-align: center;
+  font-weight: normal;
+}
+
+.messages {
+  flex-grow: 1;
+  min-height: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.guess-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.guess-input {
+  margin: .25rem 0;
+}
+
+.guess-btn {
+  cursor: pointer;
+}
+
+.ready-btn {
+  cursor: pointer;
+}
+
+.guess-container {
+  background-color: #CCC;
+  border-radius: .25rem;
+  padding: .4rem;
+  width: 100%;
+  margin-bottom: .25rem;
+}
+
+.guess-container > .name {
+  font-weight: bold;
+  font-size: .75rem;
+  color: #555;
+  word-break: break-all;
+}
+
+.guess-container > .text {
+  word-break: break-all;
+}
+
+@media (max-width: 500px) {
+  body {
+    flex-direction: column;
+  }
+
+  .text-section {
+    margin-left: 0;
+    margin-top: .5rem;
+    width: 100%;
+  }
+}
+
+.hide {
+  display: none !important;
+}
