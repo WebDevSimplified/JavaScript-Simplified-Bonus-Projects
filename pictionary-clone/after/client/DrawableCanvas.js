@@ -17,15 +17,14 @@ export default function DrawableCanvas(canvas, socket) {
     if (prevPosition != null) {
       drawLine(prevPosition, newPosition)
       socket.emit("draw", {
-        prevPosition: normalizeCoords(prevPosition),
-        currentPosition: normalizeCoords(newPosition)
+        start: normalizeCoordinates(prevPosition),
+        end: normalizeCoordinates(newPosition)
       })
     }
 
     prevPosition = newPosition
   })
   canvas.addEventListener("mouseleave", () => (prevPosition = null))
-
   socket.on("draw-line", (start, end) => {
     drawLine(toCanvasSpace(start), toCanvasSpace(end))
   })
@@ -38,17 +37,17 @@ export default function DrawableCanvas(canvas, socket) {
     ctx.stroke()
   }
 
-  function toCanvasSpace(coords) {
+  function normalizeCoordinates(position) {
     return {
-      x: coords.x * canvas.width,
-      y: coords.y * canvas.height
+      x: position.x / canvas.width,
+      y: position.y / canvas.height
     }
   }
 
-  function normalizeCoords(coords) {
+  function toCanvasSpace(position) {
     return {
-      x: coords.x / canvas.width,
-      y: coords.y / canvas.height
+      x: position.x * canvas.width,
+      y: position.y * canvas.height
     }
   }
 }

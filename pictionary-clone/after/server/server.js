@@ -8,7 +8,7 @@ const io = require("socket.io")(3000, {
 })
 
 const rooms = {}
-const words = ["Bike", "Dog"]
+const WORDS = ["Dog", "Bike", "Human"]
 
 io.on("connection", socket => {
   socket.on("join-room", data => {
@@ -25,7 +25,7 @@ io.on("connection", socket => {
     socket.on("ready", () => {
       user.ready = true
       if (room.users.every(u => u.ready)) {
-        room.word = getRandomEntry(words)
+        room.word = getRandomEntry(WORDS)
         room.guesser = getRandomEntry(room.users)
         io.to(room.guesser.id).emit("start-drawer", room.word)
         room.guesser.socket.to(room.id).emit("start-guesser")
@@ -43,9 +43,7 @@ io.on("connection", socket => {
     })
 
     socket.on("draw", data => {
-      socket
-        .to(room.id)
-        .emit("draw-line", data.prevPosition, data.currentPosition)
+      socket.to(room.id).emit("draw-line", data.start, data.end)
     })
 
     socket.on("disconnect", () => {
