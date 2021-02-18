@@ -7,7 +7,7 @@ const LANES_STORAGE_KEY = `${STORAGE_PREFIX}-lanes`
 const DEFAULT_LANES = {
   backlog: [{ id: uuidV4(), text: "Create your first task" }],
   doing: [],
-  done: []
+  done: [],
 }
 const lanes = loadLanes()
 renderTasks()

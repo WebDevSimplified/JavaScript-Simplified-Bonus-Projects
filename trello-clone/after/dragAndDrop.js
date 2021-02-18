@@ -14,7 +14,7 @@ function setupDragItems(selectedItem, itemClone, ghost, e) {
   const originalRect = selectedItem.getBoundingClientRect()
   const offset = {
     x: e.clientX - originalRect.left,
-    y: e.clientY - originalRect.top
+    y: e.clientY - originalRect.top,
   }
 
   selectedItem.classList.add("hide")
@@ -65,7 +65,7 @@ function setupDragEvents(
           startZone: getDropZone(selectedItem),
           endZone: dropZone,
           dragElement: selectedItem,
-          index: Array.from(dropZone.children).indexOf(ghost)
+          index: Array.from(dropZone.children).indexOf(ghost),
         })
         dropZone.insertBefore(selectedItem, ghost)
       }
