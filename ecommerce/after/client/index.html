@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://js.stripe.com/v3/" defer></script>
+  <script src="script.js" defer></script>
+  <title>Store</title>
+</head>
+<body>
+  <h1 class="title">Store</h1>
+  <form class="sign-in-form">
+    <div class="sign-in-helper-text">Already purchased? Enter your email to get download links.</div>
+    <div class="form-input">
+      <input type="email" id="email" placeholder="Email" class="input">
+      <button class="btn btn-login">Login</button>
+    </div>
+  </form>
+  <div class="item-list" data-item-list></div>
+
+  <template id="item-template">
+    <div class="item">
+      <div class="item-name" data-item-name></div>
+      <div class="item-footer">
+        <div class="item-price" data-item-price></div>
+        <button class="btn" data-item-btn></button>
+      </div>
+    </div>
+  </template>
+</body>
+</html>

@@ -11,7 +11,6 @@ describe("With properties", () => {
     const readSpy = jest
       .spyOn(updateCommand.table, "readData")
       .mockResolvedValue(data)
-
     const writeSpy = jest
       .spyOn(updateCommand.table, "overwriteTable")
       .mockResolvedValue()
@@ -20,6 +19,7 @@ describe("With properties", () => {
       { a: 1, b: 2, c: 3 },
       { a: 3, b: 4, c: 3 },
     ]
+
     expect(await updateCommand.perform()).toIncludeSameMembers(expectedData)
     expect(writeSpy).toHaveBeenCalledWith(expectedData)
     expect(readSpy).toHaveBeenCalled()
@@ -41,7 +41,6 @@ describe("With a where command", () => {
     const readSpy = jest
       .spyOn(updateCommand.table, "readData")
       .mockResolvedValue(data)
-
     const writeSpy = jest
       .spyOn(updateCommand.table, "overwriteTable")
       .mockResolvedValue()
@@ -50,6 +49,7 @@ describe("With a where command", () => {
       { a: 1, b: 2, c: 3 },
       { a: 3, b: 4 },
     ]
+
     expect(await updateCommand.perform(whereCommand)).toIncludeSameMembers([
       expectedData[0],
     ])

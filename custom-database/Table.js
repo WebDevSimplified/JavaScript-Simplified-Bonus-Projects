@@ -1,6 +1,7 @@
+const { v4: uuidV4 } = require("uuid")
 const fs = require("fs")
 const TableDoesNotExistError = require("./errors/TableDoesNotExistError")
-const { v4: uuidV4 } = require("uuid")
+const { reject } = require("rsvp")
 
 module.exports = class Table {
   constructor(tableName) {
@@ -32,11 +33,14 @@ module.exports = class Table {
           }
         })
         .then(data => {
-          data.push(recordWithId)
-          fs.writeFile(this.filePath, JSON.stringify(data), error => {
-            if (error) return reject(error)
-            resolve(recordWithId)
-          })
+          fs.writeFile(
+            this.filePath,
+            JSON.stringify([...data, recordWithId]),
+            error => {
+              if (error) return reject(error)
+              resolve(recordWithId)
+            }
+          )
         })
     })
   }

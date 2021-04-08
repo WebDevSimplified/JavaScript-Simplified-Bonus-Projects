@@ -1,7 +1,7 @@
 const parseSelectCommand = require("./select")
 
 describe("With all columns", () => {
-  const command = `SELECT * FROM table`
+  const command = "SELECT * FROM table"
 
   test("It returns correct SelectCommand", () => {
     const selectCommand = parseSelectCommand(command)
@@ -11,7 +11,7 @@ describe("With all columns", () => {
 })
 
 describe("With specific columns", () => {
-  const command = `SELECT a, b FROM table`
+  const command = "SELECT a, b FROM table"
 
   test("It returns correct SelectCommand", () => {
     const selectCommand = parseSelectCommand(command)
@@ -22,7 +22,7 @@ describe("With specific columns", () => {
 })
 
 describe("With no columns", () => {
-  const command = `SELECT FROM table`
+  const command = "SELECT FROM table"
 
   test("It returns undefined", () => {
     expect(parseSelectCommand(command)).toBeUndefined()
@@ -30,7 +30,7 @@ describe("With no columns", () => {
 })
 
 describe("With malformed columns", () => {
-  const command = `SELECT , FROM table`
+  const command = "SELECT , FROM table"
 
   test("It returns undefined", () => {
     expect(parseSelectCommand(command)).toBeUndefined()
@@ -38,7 +38,7 @@ describe("With malformed columns", () => {
 })
 
 describe("With no SELECT clause", () => {
-  const command = `* FROM table`
+  const command = "* FROM table"
 
   test("It returns undefined", () => {
     expect(parseSelectCommand(command)).toBeUndefined()
@@ -46,7 +46,7 @@ describe("With no SELECT clause", () => {
 })
 
 describe("With no FROM clause", () => {
-  const command = `SELECT * table`
+  const command = "SELECT * table"
 
   test("It returns undefined", () => {
     expect(parseSelectCommand(command)).toBeUndefined()
@@ -54,7 +54,7 @@ describe("With no FROM clause", () => {
 })
 
 describe("With no table name", () => {
-  const command = `SELECT * FROM`
+  const command = "SELECT * FROM"
 
   test("It returns undefined", () => {
     expect(parseSelectCommand(command)).toBeUndefined()

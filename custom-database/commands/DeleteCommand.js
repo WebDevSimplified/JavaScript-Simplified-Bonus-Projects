@@ -9,9 +9,9 @@ module.exports = class DeleteCommand {
     const originalData = await this.table.readData()
     let dataToDelete = originalData
     if (whereCommand) dataToDelete = whereCommand.perform(dataToDelete)
-    const dataToKeep = originalData.filter(
-      record => !dataToDelete.includes(record)
-    )
+    const dataToKeep = originalData.filter(record => {
+      return !dataToDelete.includes(record)
+    })
 
     await this.table.overwriteTable(dataToKeep)
     return dataToDelete.map(record => record._id)

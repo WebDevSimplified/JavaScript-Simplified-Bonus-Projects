@@ -1,6 +1,6 @@
 const DeleteCommand = require("./DeleteCommand")
 
-describe("With valid command", () => {
+describe("With a valid command", () => {
   const deleteCommand = new DeleteCommand({})
   const data = [
     { _id: 1, a: 3 },
@@ -11,7 +11,6 @@ describe("With valid command", () => {
     const readSpy = jest
       .spyOn(deleteCommand.table, "readData")
       .mockResolvedValue(data)
-
     const writeSpy = jest
       .spyOn(deleteCommand.table, "overwriteTable")
       .mockResolvedValue()
@@ -37,7 +36,6 @@ describe("With a where command", () => {
     const readSpy = jest
       .spyOn(deleteCommand.table, "readData")
       .mockResolvedValue(data)
-
     const writeSpy = jest
       .spyOn(deleteCommand.table, "overwriteTable")
       .mockResolvedValue()

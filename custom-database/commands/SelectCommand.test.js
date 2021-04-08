@@ -7,7 +7,7 @@ describe("With all columns selected", () => {
     { a: 3, b: 4 },
   ]
 
-  test("It returns the data as is", async () => {
+  test("It return the data as is", async () => {
     const spy = jest
       .spyOn(selectCommand.table, "readData")
       .mockResolvedValue(data)
@@ -49,7 +49,7 @@ describe("With a where command", () => {
     { a: 3, b: 4 },
   ]
 
-  test("It returns the data that matches the where command", async () => {
+  test("It returns only the values matched by the where command", async () => {
     const spy = jest
       .spyOn(selectCommand.table, "readData")
       .mockResolvedValue(data)

@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Learn React Today",
+    "priceCents": "10000",
+    "file": "learn-react-today.txt"
+  },
+  {
+    "id": 2,
+    "name": "Learn CSS Today",
+    "priceCents": "20000",
+    "file": "learn-css-today.txt"
+  },
+  {
+    "id": 3,
+    "name": "JavaScript Simplified",
+    "priceCents": "30000",
+    "file": "javascript-simplified.txt"
+  }
+]

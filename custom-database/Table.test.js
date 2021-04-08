@@ -1,43 +1,28 @@
 const mock = require("mock-fs")
 const fs = require("fs")
-const TableDoesNotExistError = require("./errors/TableDoesNotExistError")
 const Table = require("./Table")
-
-describe("#filePath", () => {
-  test("It returns the correct json file path", () => {
-    const table = new Table("table")
-    expect(table.filePath).toEqual("data/table.json")
-  })
-})
+const TableDoesNotExistError = require("./errors/TableDoesNotExistError")
 
 describe("#readData", () => {
   describe("With nonexisting table name", () => {
     beforeEach(() => mock({ data: {} }))
     afterEach(mock.restore)
 
-    test("It throws TableDoesNotExist error", async () => {
+    test("It throws TableDoesNotExistError", async () => {
       const table = new Table("table")
       await expect(table.readData()).rejects.toThrow(TableDoesNotExistError)
     })
   })
 
-  describe("With existing table name", () => {
+  describe("With an existing table name", () => {
     const data = [
       { a: 1, b: 2 },
       { a: 3, b: 4 },
     ]
-
-    beforeEach(() => {
-      mock({
-        data: {
-          "table.json": JSON.stringify(data),
-        },
-      })
-    })
-
+    beforeEach(() => mock({ data: { "table.json": JSON.stringify(data) } }))
     afterEach(mock.restore)
 
-    test("It gets all data in table", async () => {
+    test("It gets all the data in the table", async () => {
       const table = new Table("table")
       expect(await table.readData()).toIncludeSameMembers(data)
     })
@@ -64,19 +49,12 @@ describe("#insertRecord", () => {
     })
   })
 
-  describe("With existing table name", () => {
+  describe("With an existing table", () => {
     const data = [
       { a: 1, b: 2 },
       { a: 3, b: 4 },
     ]
-
-    beforeEach(() => {
-      mock({
-        data: {
-          "table.json": JSON.stringify(data),
-        },
-      })
-    })
+    beforeEach(() => mock({ data: { "table.json": JSON.stringify(data) } }))
     afterEach(mock.restore)
 
     test("It adds the record", async () => {
@@ -114,26 +92,25 @@ describe("#overwriteTable", () => {
     })
   })
 
-  describe("With existing table name", () => {
+  describe("With an existing table name", () => {
     const data = [
       { a: 1, b: 2 },
       { a: 3, b: 4 },
     ]
-
-    beforeEach(() => {
+    beforeEach(() =>
       mock({
         data: {
           "table.json": JSON.stringify(data),
         },
       })
-    })
+    )
     afterEach(mock.restore)
 
-    test("It overwrites the data", async () => {
+    test("It overwrite the data", async () => {
       const table = new Table("table")
       const dataToInsert = [
-        { a: 1, b: 2 },
         { a: 5, b: 6 },
+        { a: 7, b: 8 },
       ]
       await table.overwriteTable(dataToInsert)
 

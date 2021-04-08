@@ -1,7 +1,7 @@
 const parseInsertCommand = require("./insert")
 
-describe("With valid command", () => {
-  const command = `INSERT { "a": 1, "b": 2 } INTO table`
+describe("With a valid command", () => {
+  const command = 'INSERT { "a": 1, "b": 2 } INTO table'
 
   test("It returns correct InsertCommand", () => {
     const insertCommand = parseInsertCommand(command)
@@ -11,7 +11,7 @@ describe("With valid command", () => {
 })
 
 describe("With an invalid record", () => {
-  const command = `INSERT { asdfasdf } INTO table`
+  const command = "INSERT { afdasdf } INTO table"
 
   test("It returns undefined", () => {
     expect(parseInsertCommand(command)).toBeUndefined()
@@ -19,7 +19,7 @@ describe("With an invalid record", () => {
 })
 
 describe("With no table name", () => {
-  const command = `INSERT { "a": 1, "b": 2 } INTO`
+  const command = 'INSERT { "a": 1, "b": 2 } INTO'
 
   test("It returns undefined", () => {
     expect(parseInsertCommand(command)).toBeUndefined()
@@ -27,7 +27,7 @@ describe("With no table name", () => {
 })
 
 describe("With no INSERT clause", () => {
-  const command = `{ "a": 1, "b": 2 } INTO table`
+  const command = '{ "a": 1, "b": 2 } INTO table'
 
   test("It returns undefined", () => {
     expect(parseInsertCommand(command)).toBeUndefined()
@@ -35,15 +35,7 @@ describe("With no INSERT clause", () => {
 })
 
 describe("With no INTO clause", () => {
-  const command = `INSERT { "a": 1, "b": 2 } table`
-
-  test("It returns undefined", () => {
-    expect(parseInsertCommand(command)).toBeUndefined()
-  })
-})
-
-describe("With no table name", () => {
-  const command = `SELECT * FROM`
+  const command = 'INSERT { "a": 1, "b": 2 } table'
 
   test("It returns undefined", () => {
     expect(parseInsertCommand(command)).toBeUndefined()

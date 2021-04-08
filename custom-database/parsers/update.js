@@ -14,11 +14,12 @@ function parseUpdateCommand(commandString) {
   const properties = safeParseJSON(regexMatch.groups.properties)
   if (properties == null) return
 
-  // Remove part way through tutorial since this is not possible to actually hit
   const tableName = regexMatch.groups.tableName
-  if (tableName === "") return
 
-  return new UpdateCommand({ tableName, properties })
+  return new UpdateCommand({
+    tableName,
+    properties,
+  })
 }
 
 module.exports = parseUpdateCommand

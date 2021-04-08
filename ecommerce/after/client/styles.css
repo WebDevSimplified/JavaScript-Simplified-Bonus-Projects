@@ -1,0 +1,95 @@
+* {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: .5rem;
+  color: #333;
+}
+
+.sign-in-form {
+  width: max-content;
+  margin: auto;
+}
+
+.sign-in-helper-text {
+  margin-bottom: .25rem;
+  color: #555;
+  font-size: .9rem;
+}
+
+.form-input {
+  display: flex;
+  width: 100%;
+}
+
+.input {
+  flex-grow: 1;
+  border: 1px solid #555;
+  border-right: none;
+}
+
+.btn.btn-login {
+  border: 1px solid #555;
+  background-color: #1891ce;
+  color: white;
+}
+
+.btn.btn-login:hover {
+  background-color: #116b97;
+}
+
+.item-list {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, 180px);
+  gap: 1rem;
+  max-width: 90%;
+  margin: auto;
+  margin-top: 2rem;
+}
+
+.item {
+  text-align: center;
+  border: 1px solid #555;
+  border-radius: .25rem;
+  padding: .5rem;
+}
+
+.item-name {
+  font-weight: bold;
+  color: #333;
+}
+
+.item-footer {
+  color: #555;
+  display: flex;
+  justify-content: space-between;
+  margin-top: .5rem;
+  align-items: center;
+}
+
+.btn {
+  border: none;
+  padding: .25rem .5rem;
+  cursor: pointer;
+}
+
+.purchase-btn {
+  background-color: #1ba100;
+  color: white;
+}
+
+.purchase-btn:hover {
+  background-color: #147500;
+}
+
+.download-btn {
+  background-color: #8d00c5;
+  color: white;
+}
+
+.download-btn:hover {
+  background-color: #6500a0;
+}

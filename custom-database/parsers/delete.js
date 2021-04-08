@@ -10,11 +10,11 @@ function parseDeleteCommand(commandString) {
   const regexMatch = commandString.match(REGEX)
   if (regexMatch == null) return
 
-  // Remove part way through tutorial since this is not possible to actually hit
   const tableName = regexMatch.groups.tableName
-  if (tableName === "") return
 
-  return new DeleteCommand({ tableName })
+  return new DeleteCommand({
+    tableName,
+  })
 }
 
 module.exports = parseDeleteCommand
