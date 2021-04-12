@@ -1,7 +1,7 @@
-module.exports = class InvalidCommandError extends Error {
-  constructor(commandString) {
-    super(commandString)
+module.exports = class TableDoesNotExistError extends Error {
+  constructor(tableName) {
+    super(tableName)
 
-    this.name = "InvalidCommandError"
+    this.name = "TableDoesNotExistError"
   }
 }

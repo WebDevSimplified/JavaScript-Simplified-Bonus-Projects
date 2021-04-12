@@ -1,6 +1,6 @@
 module.exports = class InvalidCommandError extends Error {
-  constructor(tableName) {
-    super(tableName)
+  constructor(commandString) {
+    super(commandString)
 
     this.name = "InvalidCommandError"
   }
