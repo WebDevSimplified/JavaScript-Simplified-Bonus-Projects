@@ -2,22 +2,22 @@
   {
     "id": 1,
     "name": "Learn React Today",
-    "priceCents": "10000",
+    "priceInCents": 10000,
     "file": "learn-react-today.txt",
-    "listId": 2
+    "listId": 5
   },
   {
     "id": 2,
     "name": "Learn CSS Today",
-    "priceCents": "20000",
+    "priceInCents": 20000,
     "file": "learn-css-today.txt",
-    "listId": 3
+    "listId": 6
   },
   {
     "id": 3,
     "name": "JavaScript Simplified",
-    "priceCents": "30000",
+    "priceInCents": 30000,
     "file": "javascript-simplified.txt",
-    "listId": 4
+    "listId": 7
   }
 ]

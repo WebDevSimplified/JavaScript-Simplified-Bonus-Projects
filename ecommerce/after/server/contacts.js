@@ -18,21 +18,21 @@ async function getContactPurchasedItems(email) {
 }
 
 function createContact(email, listId) {
-  return apiInstance.post("contacts", {
+  return apiInstance.post("/contacts", {
     email,
     listIds: [listId],
   })
 }
 
-function updateContact(emailOrId, newListId) {
-  return apiInstance.put(`contacts/${emailOrId}`, {
-    listIds: [newListId],
+function updateContact(emailOrId, listId) {
+  return apiInstance.put(`/contacts/${emailOrId}`, {
+    listIds: [listId],
   })
 }
 
 function getContact(emailOrId) {
   return apiInstance
-    .get(`contacts/${emailOrId}`)
+    .get(`/contacts/${emailOrId}`)
     .then(res => res.data)
     .catch(e => {
       if (e.response.status === 404) return null
@@ -40,7 +40,4 @@ function getContact(emailOrId) {
     })
 }
 
-module.exports = {
-  linkContactAndItem,
-  getContactPurchasedItems,
-}
+module.exports = { linkContactAndItem, getContactPurchasedItems }

@@ -9,6 +9,7 @@
 }
 
 .sign-in-form {
+  max-width: 100%;
   width: max-content;
   margin: auto;
 }
