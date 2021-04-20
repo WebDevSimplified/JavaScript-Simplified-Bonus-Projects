@@ -5,10 +5,10 @@ const cors = require("cors")
 const { v4: uuidV4 } = require("uuid")
 
 const items = require("./items.json")
+const { sendDownloadLink, sendAllDownloadLinks } = require("./mailer")
+const { getContactPurchasedItems, linkContactAndItem } = require("./contacts")
 const app = express()
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
-const mailer = require("@sendgrid/mail")
-mailer.setApiKey(process.env.SEND_GRID_API_KEY)
 
 const downloadLinkMap = new Map()
 const DOWNLOAD_LINK_EXPIRATION = 10 * 60 * 1000 // 10 Minutes
@@ -17,12 +17,18 @@ const COOKIE_EXPIRATION = 30 * 24 * 60 * 60 * 1000 // 30 Days
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors())
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.CLIENT_URL,
+  })
+)
 
-app.get("/items", (req, res) => {
-  // Maybe don't bother hashing the email and just save it as is in the cookie since they will need to access their email to do the download anyway
+app.get("/items", async (req, res) => {
   const email = req.cookies.email
-  // if (email == null) return res.json([])
+  const purchasedItemIds = (await getContactPurchasedItems(email)).map(
+    item => item.id
+  )
 
   return res.json(
     items.map(item => {
@@ -30,8 +36,7 @@ app.get("/items", (req, res) => {
         id: item.id,
         name: item.name,
         price: item.priceCents / 100,
-        // Set this based on the cookie email and SendGrid's list
-        purchased: false,
+        purchased: purchasedItemIds.includes(item.id),
       }
     })
   )
@@ -53,20 +58,41 @@ app.get("/download/:code", (req, res) => {
 
 app.post("/download-email", (req, res) => {
   const email = req.cookies.email
-  const productId = req.body.productId
-  // If email is not part of product send back some form of error
-  // Check if email is associated with productId an if so then generate download link
-  const code = createDownloadCode(productId)
-  // Send email with this code in it for download and success message
+  const itemId = req.body.itemId
+  const code = createDownloadCode(itemId)
+  sendDownloadLink(
+    email,
+    code,
+    items.find(item => item.id === itemId)
+  )
+    .then(() => res.json({ message: "Check your email for a download link" }))
+    .catch(() => res.status(500).json({ message: "Error: Please try again." }))
+})
+
+app.post("/download-all", async (req, res) => {
+  const email = req.body.email
+  const items = await getContactPurchasedItems(email)
+  sendAllDownloadLinks(
+    email,
+    items.map(item => {
+      return { item, code: createDownloadCode(item.id) }
+    })
+  )
+  return res.json({ message: "Check your email for a download link" })
 })
 
 app.post("/create-checkout-session", async (req, res) => {
   const item = items.find(i => i.id === parseInt(req.body.itemId))
-  sendEmail("webdevsimplified@gmail.com", "sdfsdf", item)
   if (item == null) {
     return res.status(400).json({ message: "invalid item" })
   }
-  const session = await stripe.checkout.sessions.create({
+  const session = await createCheckoutSession(item)
+
+  res.json({ id: session.id })
+})
+
+function createCheckoutSession(item) {
+  return stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items: [
       {
@@ -84,9 +110,7 @@ app.post("/create-checkout-session", async (req, res) => {
     success_url: `${process.env.SERVER_URL}/purchase-success?sessionId={CHECKOUT_SESSION_ID}&itemId=${item.id}`,
     cancel_url: process.env.CLIENT_URL,
   })
-
-  res.json({ id: session.id })
-})
+}
 
 app.get("/purchase-success", async (req, res) => {
   const item = items.find(i => i.id === parseInt(req.query.itemId))
@@ -97,43 +121,13 @@ app.get("/purchase-success", async (req, res) => {
   res.cookie("email", email, {
     httpOnly: true,
     secure: true,
+    maxAge: COOKIE_EXPIRATION,
   })
-  // If the purchase was successful then create a download link map and delete it after 10 minutes
+  linkContactAndItem(email, item)
   const downloadLinkCode = createDownloadCode(item.id)
-  sendEmail(email, downloadLinkCode, item)
+  sendDownloadLink(email, downloadLinkCode, item)
   res.redirect(`${process.env.CLIENT_URL}/download-links.html`)
 })
-
-app.get("/", (req, res) => {
-  res.cookie("Test", "Value", {
-    maxAge: COOKIE_EXPIRATION,
-    httpOnly: true,
-    secure: true,
-  })
-})
-
-function sendEmail(email, downloadLinkCode, item) {
-  const msg = {
-    to: email,
-    from: "kyle@webdevsimplified.com",
-    subject: `Download ${item.name}`,
-    text: "Test",
-    html: `
-      <h1>Thank you for purchasing ${item.name}</h1>
-
-      <a href="${process.env.SERVER_URL}/download/${downloadLinkCode}">Download it now</a>
-    `,
-  }
-  console.log(msg)
-  mailer
-    .send(msg)
-    .then(() => {
-      console.log("Email sent")
-    })
-    .catch(error => {
-      console.error(error)
-    })
-}
 
 function createDownloadCode(itemId) {
   const downloadUuid = uuidV4()
