@@ -1,46 +1,42 @@
-import axios from "axios"
+import { downloadAll, downloadItem, getItems, purchaseItem } from "./api"
 
 const itemTemplate = document.getElementById("item-template")
 const itemList = document.querySelector("[data-item-list]")
-const serverUrl = process.env.SERVER_URL
-const stripe = Stripe(process.env.STRIPE_PUBLIC_KEY)
+const emailForm = document.querySelector("[data-email-form]")
+const emailInput = document.querySelector("[data-email-input]")
 
-function loadItems() {
-  axios.get(`${serverUrl}/items`).then(res => {
-    itemList.innerHTML = ""
+emailForm.addEventListener("submit", e => {
+  e.preventDefault()
+  downloadAll(emailInput.value)
+})
 
-    res.data.forEach(item => {
-      const itemElement = itemTemplate.content.cloneNode(true)
+async function loadItems() {
+  const items = await getItems()
+  itemList.innerHTML = ""
 
-      itemElement.querySelector("[data-item-name]").textContent = item.name
+  items.forEach(item => {
+    const itemElement = itemTemplate.content.cloneNode(true)
 
-      const priceElement = itemElement.querySelector("[data-item-price]")
-      priceElement.textContent = `$${item.price}`
+    itemElement.querySelector("[data-item-name]").textContent = item.name
 
-      const button = itemElement.querySelector("[data-item-btn]")
-      if (item.purchased) {
-        button.textContent = "Download"
-        button.classList.add("download-btn")
-      } else {
-        button.textContent = "Purchase"
-        button.classList.add("purchase-btn")
-        button.addEventListener("click", () => {
-          axios
-            .post(`${serverUrl}/create-checkout-session`, {
-              itemId: item.id,
-            })
-            .then(res => stripe.redirectToCheckout({ sessionId: res.data.id }))
-            .then(res => {
-              if (res.error) alert(res.error.message)
-            })
-            .catch(res => {
-              console.error(res)
-              alert(res)
-            })
-        })
-      }
-      itemList.append(itemElement)
-    })
+    const priceElement = itemElement.querySelector("[data-item-price]")
+    priceElement.textContent = `$${item.price}`
+
+    const button = itemElement.querySelector("[data-item-btn]")
+    if (item.purchased) {
+      button.textContent = "Download"
+      button.classList.add("download-btn")
+      button.addEventListener("click", async () => {
+        await downloadItem(item.id)
+      })
+    } else {
+      button.textContent = "Purchase"
+      button.classList.add("purchase-btn")
+      button.addEventListener("click", async () => {
+        await purchaseItem(item.id)
+      })
+    }
+    itemList.append(itemElement)
   })
 }
 
