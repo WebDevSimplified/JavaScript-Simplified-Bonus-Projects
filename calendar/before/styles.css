@@ -136,18 +136,20 @@ body {
   color: white;
 }
 
-.day:hover .add-event-btn {
-  display: flex;
+.day:hover .add-event-btn,
+.add-event-btn:focus {
+  opacity: 1;
 }
 
 .add-event-btn {
-  display: none;
+  opacity: 0;
   position: absolute;
   background: none;
   border: none;
   border-radius: 50%;
   width: 1.5rem;
   height: 1.5rem;
+  display: flex;
   justify-content: center;
   align-items: center;
   right: 0;
@@ -167,6 +169,12 @@ body {
   overflow: hidden;
   white-space: nowrap;
   margin-bottom: .5rem;
+  cursor: pointer;
+  background: none;
+  width: 100%;
+  border: none;
+  font-size: 1rem;
+  padding: 0;
 }
 
 .event:last-child {
