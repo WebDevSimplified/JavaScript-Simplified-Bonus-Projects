@@ -1,0 +1,335 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+:root {
+  --blue-background: hsl(200, 80%, 50%);
+  --red-background: hsl(0, 75%, 60%);
+  --green-background: hsl(150, 80%, 30%);
+}
+
+body {
+  height: 100vh;
+  margin: 0;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.calendar {
+  --border-size: 1px;
+  --border-color: #dadce0;
+  --day-padding: .25rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  color: #333;
+}
+
+.header {
+  padding: 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.header > * {
+  margin-right: .5rem;
+}
+
+.header > :last-child {
+  margin-right: 0;
+}
+
+.today-btn {
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: .25rem;
+  padding: .5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 250ms;
+  color: #333;
+}
+
+.today-btn:hover {
+  background-color: #f1f3f4;
+}
+
+.month-change-btn {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  width: 2rem;
+  padding: 0;
+  height: 2rem;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 100%;
+  transition: background-color 250ms;
+  color: #333;
+}
+
+.month-change-btn:hover {
+  background-color: #f1f3f4;
+}
+
+.month-change-btn:first-child {
+  margin-right: -.5rem;
+}
+
+.month-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.days {
+  flex-grow: 1;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-auto-rows: minmax(100px, 1fr);
+  background-color: var(--border-color);
+  gap: var(--border-size);
+  padding: var(--border-size);
+}
+
+.day {
+  background-color: white;
+  padding: var(--day-padding);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.non-month-day {
+  opacity: .75;
+}
+
+.day-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.week-name {
+  text-transform: uppercase;
+  font-size: .75rem;
+  font-weight: bold;
+  color: #777;
+}
+
+.day-number {
+  font-size: .9rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.day-number.active {
+  background-color: var(--blue-background);
+  border-radius: 50%;
+  color: white;
+}
+
+.day:hover .add-event-btn {
+  display: flex;
+}
+
+.add-event-btn {
+  display: none;
+  position: absolute;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  right: 0;
+  top: 0;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.add-event-btn:hover {
+  background-color: #f1f3f4;
+}
+
+.event {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-bottom: .5rem;
+}
+
+.event:last-child {
+  margin-bottom: 0;
+}
+
+.all-day-event {
+  color: white;
+  padding: .15rem .25rem;
+  border-radius: .25rem;
+}
+
+.all-day-event .event-name {
+  overflow: hidden;
+}
+
+.event > * {
+  margin-right: .5rem;
+}
+
+.event > :last-child {
+  margin-right: 0;
+}
+
+.event-time {
+  color: #777;
+}
+
+.color-dot {
+  border-radius: 50%;
+  width: .5rem;
+  height: .5rem;
+  flex-shrink: 0;
+}
+
+.color-dot.blue, .all-day-event.blue {
+  background-color: var(--blue-background);
+}
+
+.color-dot.red, .all-day-event.red {
+  background-color: var(--red-background);
+}
+
+.color-dot.green, .all-day-event.green {
+  background-color: var(--green-background);
+}
+
+.events-view-more-btn {
+  border: none;
+  background: none;
+  font-weight: bold;
+  color: #555;
+  cursor: pointer;
+  margin-top: .5rem;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal .overlay {
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  transition: background-color 250ms;
+}
+
+.modal.show .overlay {
+  background-color: rgba(0, 0, 0, .5);
+}
+
+.modal .modal-body {
+  background-color: white;
+  border-radius: .5rem;
+  padding: 1rem;
+  z-index: 1;
+  transform: scale(0);
+  transition: transform 250ms;
+  min-width: 300px;
+  max-width: 95%;
+}
+
+.modal.show .modal-body {
+  transform: scale(1);
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title > * {
+  margin-right: .25rem;
+}
+
+.modal-title > :last-child {
+  margin-right: 0;
+}
+
+.modal-title > small {
+  color: #555;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form-group.checkbox {
+  flex-direction: row;
+  align-items: center;
+}
+
+.form-group.checkbox input {
+  cursor: pointer;
+  margin-right: 0;
+}
+
+.form-group.checkbox label {
+  padding-left: .5rem;
+  cursor: pointer;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  font-weight: bold;
+  font-size: .8rem;
+  color: #777;
+}
+
+.form-group input {
+  padding: .25rem .5rem
+}
+
+.row {
+  display: flex;
+}
+
+.row > * {
+  flex-grow: 1;
+  flex-basis: 0;
+  margin-right: .5rem;
+}
+
+.row > :last-child {
+  margin-right: 0;
+}
