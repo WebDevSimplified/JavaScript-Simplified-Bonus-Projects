@@ -10,7 +10,7 @@
 <body>
   <div class="calendar">
     <div class="header">
-      <button class="today-btn">Today</button>
+      <button class="btn">Today</button>
       <div>
         <button class="month-change-btn">&lt;</button>
         <button class="month-change-btn">&gt;</button>
@@ -309,7 +309,7 @@
     <div class="modal-body"></div>
   </div>
 
-  <template id="view-all-events">
+  <template id="view-all-events-template">
     <div class="modal-title">4/8/21</div>
     <button class="all-day-event green event">
       <div class="event-name">Short</div>
@@ -336,9 +336,9 @@
     </button>
   </template>
 
-  <template id="event-form">
+  <template id="event-form-template">
     <div class="modal-title">
-      <div>Add Event</div>
+      <div>Add/Edit Event</div>
       <small>4/8/21</small>
     </div>
     <form>
@@ -353,12 +353,27 @@
       <div class="row">
         <div class="form-group">
           <label for="start-time">Start Time</label>
-          <input type="time" step="900" name="start-time" id="start-time">
+          <input type="time" name="start-time" id="start-time">
         </div>
         <div class="form-group">
           <label for="end-time">End Time</label>
-          <input type="time" step="900" name="end-time" id="end-time">
+          <input type="time" name="end-time" id="end-time">
         </div>
+      </div>
+      <div class="form-group">
+        <label>Color</label>
+        <div class="row left">
+          <input type="radio" name="color" value="blue" id="blue" checked class="color-radio" data-color>
+          <label for="blue"><span class="sr-only">Blue</span></label>
+          <input type="radio" name="color" value="red" id="red" class="color-radio" data-color>
+          <label for="red"><span class="sr-only">Red</span></label>
+          <input type="radio" name="color" value="green" id="green" class="color-radio" data-color>
+          <label for="green"><span class="sr-only">Green</span></label>
+        </div>
+      </div>
+      <div class="row">
+        <button class="btn btn-success" type="submit">Add/Save</button>
+        <button class="btn btn-delete" type="button">Delete</button>
       </div>
     </form>
   </template>
