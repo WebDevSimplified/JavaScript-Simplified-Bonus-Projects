@@ -7,6 +7,9 @@
   --blue-background: hsl(200, 80%, 50%);
   --red-background: hsl(0, 75%, 60%);
   --green-background: hsl(150, 80%, 30%);
+  --border-color: #dadce0;
+  --border-size: 1px;
+  --day-padding: .25rem;
 }
 
 body {
@@ -17,9 +20,6 @@ body {
 }
 
 .calendar {
-  --border-size: 1px;
-  --border-color: #dadce0;
-  --day-padding: .25rem;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -41,7 +41,7 @@ body {
   margin-right: 0;
 }
 
-.today-btn {
+.btn {
   background: none;
   border: 1px solid var(--border-color);
   border-radius: .25rem;
@@ -52,8 +52,28 @@ body {
   color: #333;
 }
 
-.today-btn:hover {
+.btn:hover {
   background-color: #f1f3f4;
+}
+
+.btn.btn-delete {
+  border-color: hsl(0, 75%, 60%);
+  background-color: hsl(0, 75%, 95%);
+  color: hsl(0, 75%, 10%);
+}
+
+.btn.btn-delete:hover {
+  background-color: hsl(0, 75%, 90%);
+}
+
+.btn.btn-success {
+  border-color: hsl(150, 80%, 30%);
+  background-color: hsl(150, 80%, 95%);
+  color: hsl(150, 80%, 10%);
+}
+
+.btn.btn-success:hover {
+  background-color: hsl(150, 80%, 90%);
 }
 
 .month-change-btn {
@@ -237,13 +257,14 @@ body {
   left: 0;
   bottom: 0;
   right: 0;
+  display: flex;
   justify-content: center;
   align-items: center;
-  display: none;
+  pointer-events: none;
 }
 
 .modal.show {
-  display: flex;
+  pointer-events: all;
 }
 
 .modal .overlay {
@@ -340,4 +361,51 @@ body {
 
 .row > :last-child {
   margin-right: 0;
+}
+
+.row.left > * {
+  flex-grow: 0;
+}
+
+.sr-only {
+  visibility: hidden;
+  height: 0;
+  width: 0;
+  display: block;
+}
+
+.color-radio {
+  position: absolute;
+  opacity: 0;
+  left: -9999px;
+}
+
+.color-radio + label::before {
+  content: '';
+  display: block;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: .25rem;
+  cursor: pointer;
+  opacity: .25;
+}
+
+.color-radio:checked + label::before {
+  opacity: 1;
+}
+
+.color-radio:focus + label::before {
+  outline: 1px solid black;
+}
+
+.color-radio[value="blue"] + label::before {
+  background-color: var(--blue-background);
+}
+
+.color-radio[value="red"] + label::before {
+  background-color: var(--red-background);
+}
+
+.color-radio[value="green"] + label::before {
+  background-color: var(--green-background);
 }
