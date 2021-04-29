@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
-  <script src="script.js" defer></script>
+  <script src="script.js" type="module"></script>
   <title>Calendar</title>
 </head>
 <body>
@@ -27,41 +27,19 @@
   </div>
 
   <template id="day-template">
-    <div class="day" data-wrapper>
+    <div class="day" data-date-wrapper>
       <div class="day-header">
         <div class="week-name" data-week-name></div>
         <div class="day-number" data-day-number></div>
         <button class="add-event-btn" data-add-event-btn>+</button>
       </div>
       <div class="events" data-event-container></div>
+      <button class="events-view-more-btn" data-view-more-btn></button>
     </div>
   </template>
 
   <template id="view-all-events-template">
-    <div class="modal-title">4/8/21</div>
-    <button class="all-day-event green event">
-      <div class="event-name">Short</div>
-    </button>
-    <button class="event">
-      <div class="color-dot blue"></div>
-      <div class="event-time">7am</div>
-      <div class="event-name">Event Name</div>
-    </button>
-    <button class="event">
-      <div class="color-dot green"></div>
-      <div class="event-time">8am</div>
-      <div class="event-name">Event Name</div>
-    </button>
-    <button class="event">
-      <div class="color-dot blue"></div>
-      <div class="event-time">9am</div>
-      <div class="event-name">Event Name</div>
-    </button>
-    <button class="event">
-      <div class="color-dot blue"></div>
-      <div class="event-time">10am</div>
-      <div class="event-name">Event Name</div>
-    </button>
+    <div class="modal-title" data-title>4/8/21</div>
   </template>
 
   <template id="event-form-template">

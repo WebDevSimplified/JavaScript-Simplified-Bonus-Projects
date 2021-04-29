@@ -4,8 +4,8 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "start": "snowpack dev",
+    "build": "snowpack build"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +15,6 @@
     "uuid": "^3.4.0"
   },
   "devDependencies": {
-    "parcel": "^2.0.0-beta.2"
+    "snowpack": "^3.3.5"
   }
 }
