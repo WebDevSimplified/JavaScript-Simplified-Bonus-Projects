@@ -1,8 +1,8 @@
 {
-  "name": "after",
+  "name": "current-project",
   "version": "1.0.0",
   "description": "",
-  "main": "script.js",
+  "main": "index.js",
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build"
@@ -10,11 +10,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "snowpack": "^3.3.5"
+  },
   "dependencies": {
     "date-fns": "^2.21.1",
     "uuid": "^3.4.0"
-  },
-  "devDependencies": {
-    "snowpack": "^3.3.5"
   }
 }

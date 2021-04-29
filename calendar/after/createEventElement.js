@@ -1,23 +1,23 @@
-import { removeEvent, updateEvent } from "./events"
-import { openEditEventModal } from "./modal"
 import { format, parse } from "date-fns"
+import { openEditEventModal } from "./modal"
 import renderMonth from "./renderMonth"
+import { removeEvent, updateEvent } from "./events"
 
 export default function createEventElement(event) {
   const element = event.isAllDay
-    ? allDayEventToElement(event)
-    : timeEventToElement(event)
+    ? createAllDayEventElement(event)
+    : createTimedEventElement(event)
 
   element.addEventListener("click", () => {
     openEditEventModal(
       event,
       updatedEvent => {
         updateEvent(updatedEvent)
-        renderMonth(event.date)
+        renderMonth(updatedEvent.date)
       },
       deletedEvent => {
         removeEvent(deletedEvent)
-        renderMonth(event.date)
+        renderMonth(deletedEvent.date)
       }
     )
   })
@@ -26,25 +26,26 @@ export default function createEventElement(event) {
 }
 
 const allDayEventTemplate = document.getElementById("all-day-event-template")
-function allDayEventToElement(event) {
+function createAllDayEventElement(event) {
   const element = allDayEventTemplate.content
     .cloneNode(true)
     .querySelector("[data-event]")
+
   element.classList.add(event.color)
   element.querySelector("[data-name]").textContent = event.name
   return element
 }
 
-const timeEventTemplate = document.getElementById("time-event-template")
-function timeEventToElement(event) {
-  const element = timeEventTemplate.content
+const timedEventTemplate = document.getElementById("timed-event-template")
+function createTimedEventElement(event) {
+  const element = timedEventTemplate.content
     .cloneNode(true)
     .querySelector("[data-event]")
   element.querySelector("[data-name]").textContent = event.name
   element.querySelector("[data-color]").classList.add(event.color)
   element.querySelector("[data-time]").textContent = format(
     parse(event.startTime, "HH:mm", event.date),
-    "h:mma"
+    "h:mmaaa"
   )
   return element
 }

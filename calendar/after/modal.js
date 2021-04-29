@@ -1,6 +1,8 @@
 import { format } from "date-fns"
 import { v4 as uuidV4 } from "uuid"
 
+const modal = document.querySelector("[data-modal]")
+const modalBody = document.querySelector("[data-modal-body]")
 const overlay = document.querySelector("[data-overlay]")
 overlay.addEventListener("click", closeModal)
 document.addEventListener("keydown", e => {
@@ -15,15 +17,15 @@ export function openViewAllModal(date, eventElements) {
   openModal(modalBody)
 }
 
-export function openAddEventModal(date, callback) {
-  openModal(getEventFormModalBody({ date }, callback))
+const eventModalTemplate = document.getElementById("event-form-template")
+export function openAddEventModal(date, saveCallback) {
+  openModal(getEventFormModalBody({ date }, saveCallback))
 }
 
 export function openEditEventModal(event, saveCallback, deleteCallback) {
   openModal(getEventFormModalBody(event, saveCallback, deleteCallback))
 }
 
-const eventModalTemplate = document.getElementById("event-form-template")
 function getEventFormModalBody(event, saveCallback, deleteCallback) {
   const formModalBody = eventModalTemplate.content.cloneNode(true)
   const isNewEvent = event.id == null
@@ -40,13 +42,13 @@ function getEventFormModalBody(event, saveCallback, deleteCallback) {
     ? "Add"
     : "Update"
   const deleteButton = form.querySelector("[data-delete-btn]")
-  if (event.id != null && deleteCallback) {
+  if (isNewEvent) {
+    deleteButton.remove()
+  } else {
     deleteButton.addEventListener("click", () => {
       deleteCallback(event)
       closeModal()
     })
-  } else {
-    deleteButton.remove()
   }
 
   const nameInput = form.querySelector("[data-name]")
@@ -57,25 +59,26 @@ function getEventFormModalBody(event, saveCallback, deleteCallback) {
   startTimeInput.value = event.startTime
   endTimeInput.value = event.endTime
 
-  const colorRadio = form.querySelector(`[data-color][value="${event.color}"`)
-  if (colorRadio) colorRadio.checked = true
-
   const allDayCheckbox = form.querySelector("[data-all-day]")
-  allDayCheckbox.checked = event.isAllDay
+  allDayCheckbox.checked = event.isAllday
   startTimeInput.disabled = allDayCheckbox.checked
   endTimeInput.disabled = allDayCheckbox.checked
-  allDayCheckbox.addEventListener("change", e => {
-    startTimeInput.disabled = e.target.checked
-    endTimeInput.disabled = e.target.checked
+  allDayCheckbox.addEventListener("change", () => {
+    startTimeInput.disabled = allDayCheckbox.checked
+    endTimeInput.disabled = allDayCheckbox.checked
   })
   startTimeInput.addEventListener("change", () => {
     endTimeInput.min = startTimeInput.value
   })
 
+  const colorRadio = form.querySelector(`[data-color][value="${event.color}"]`)
+  if (colorRadio) colorRadio.checked = true
+
   form.addEventListener("submit", e => {
     e.preventDefault()
 
     const isAllDay = allDayCheckbox.checked
+
     saveCallback({
       id: event.id || uuidV4(),
       name: nameInput.value,
@@ -85,17 +88,16 @@ function getEventFormModalBody(event, saveCallback, deleteCallback) {
       endTime: isAllDay ? undefined : endTimeInput.value,
       color: form.querySelector("[data-color]:checked").value,
     })
+
     closeModal()
   })
 
   return formModalBody
 }
 
-const modal = document.querySelector("[data-modal]")
-const modalBody = document.querySelector("[data-modal-body]")
-function openModal(content) {
+function openModal(bodyContents) {
   modalBody.innerHTML = ""
-  modalBody.append(content)
+  modalBody.append(bodyContents)
   modal.classList.add("show")
 }
 

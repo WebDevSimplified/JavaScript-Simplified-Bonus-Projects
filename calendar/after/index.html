@@ -26,18 +26,6 @@
     <div class="modal-body" data-modal-body></div>
   </div>
 
-  <template id="day-template">
-    <div class="day" data-date-wrapper>
-      <div class="day-header">
-        <div class="week-name" data-week-name></div>
-        <div class="day-number" data-day-number></div>
-        <button class="add-event-btn" data-add-event-btn>+</button>
-      </div>
-      <div class="events" data-event-container></div>
-      <button class="events-view-more-btn" data-view-more-btn></button>
-    </div>
-  </template>
-
   <template id="view-all-events-template">
     <div class="modal-title" data-title>4/8/21</div>
   </template>
@@ -84,13 +72,25 @@
     </form>
   </template>
 
+  <template id="day-template">
+    <div class="day" data-date-wrapper>
+      <div class="day-header">
+        <div class="week-name" data-week-name></div>
+        <div class="day-number" data-day-number></div>
+        <button class="add-event-btn" data-add-event-btn>+</button>
+      </div>
+      <div class="events" data-event-container></div>
+      <button class="events-view-more-btn" data-view-more-btn></button>
+    </div>
+  </template>
+
   <template id="all-day-event-template">
     <button class="all-day-event event" data-event>
       <div class="event-name" data-name></div>
     </button>
   </template>
 
-  <template id="time-event-template">
+  <template id="timed-event-template">
     <button class="event" data-event>
       <div class="color-dot" data-color></div>
       <div class="event-time" data-time></div>

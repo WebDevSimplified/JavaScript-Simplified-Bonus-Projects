@@ -2,9 +2,9 @@ import { isSameDay, parseISO } from "date-fns"
 
 const EVENTS_KEY = "CALENDAR.events"
 
-let events = (
-  JSON.parse(localStorage.getItem(EVENTS_KEY)) || []
-).map(event => ({ ...event, date: parseISO(event.date) }))
+let events = (JSON.parse(localStorage.getItem(EVENTS_KEY)) || []).map(event => {
+  return { ...event, date: parseISO(event.date) }
+})
 
 export function addEvent(event) {
   events.push(event)
@@ -28,10 +28,6 @@ export function getEventsForDay(date) {
   return events.filter(event => isSameDay(event.date, date)).sort(compareEvents)
 }
 
-function save() {
-  localStorage.setItem(EVENTS_KEY, JSON.stringify(events))
-}
-
 function compareEvents(eventA, eventB) {
   if (eventA.isAllDay && eventB.isAllDay) {
     return 0
@@ -48,4 +44,8 @@ function compareEvents(eventA, eventB) {
 
 function eventTimeToNumber(time) {
   return parseFloat(time.replace(":", "."))
+}
+
+function save() {
+  localStorage.setItem(EVENTS_KEY, JSON.stringify(events))
 }

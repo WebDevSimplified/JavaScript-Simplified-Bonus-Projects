@@ -1,5 +1,5 @@
 import { addMonths } from "date-fns"
-import renderMonth, { fixEventOverflow } from "./renderMonth.js"
+import renderMonth, { fixEventOverflow } from "./renderMonth"
 
 let selectedMonth = Date.now()
 document.querySelector("[data-next-month-btn").addEventListener("click", () => {
@@ -12,7 +12,7 @@ document.querySelector("[data-prev-month-btn").addEventListener("click", () => {
   renderMonth(selectedMonth)
 })
 
-document.querySelector("[data-today-btn]").addEventListener("click", () => {
+document.querySelector("[data-today-btn").addEventListener("click", () => {
   selectedMonth = Date.now()
   renderMonth(selectedMonth)
 })
