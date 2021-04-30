@@ -60,7 +60,7 @@ function getEventFormModalBody(event, saveCallback, deleteCallback) {
   endTimeInput.value = event.endTime
 
   const allDayCheckbox = form.querySelector("[data-all-day]")
-  allDayCheckbox.checked = event.isAllday
+  allDayCheckbox.checked = event.isAllDay
   startTimeInput.disabled = allDayCheckbox.checked
   endTimeInput.disabled = allDayCheckbox.checked
   allDayCheckbox.addEventListener("change", () => {
