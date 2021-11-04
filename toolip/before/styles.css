@@ -54,9 +54,10 @@ body {
 
 .tooltip {
   position: absolute;
-  padding: .4rem;
+  padding: 0.4rem;
   border: 1px solid black;
-  border-radius: .25rem;
-  font-size: .75rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
   max-width: 200px;
+  text-align: center;
 }
