@@ -9,35 +9,33 @@
     <script src="/script.75da7f30.js" defer=""></script>
   <script src="/styles.8986bff4.js"></script></head>
   <body>
-    <div class="lanes">
-      <div class="lane">
-        <div class="header">Backlog</div>
-        <div class="tasks" data-drop-zone="">
-          <div class="task" data-draggable="">Do Laundry</div>
-          <div class="task" data-draggable="">Edit Video</div>
+    <div class="container">
+      <div class="lanes">
+        <div class="lane">
+          <div class="header">Backlog</div>
+          <div class="tasks" data-drop-zone="" data-lane-id="backlog"></div>
+          <form data-task-form="">
+            <input data-task-input="" class="task-input" type="text" placeholder="Task Name">
+          </form>
         </div>
-        <form>
-          <input class="task-input" type="text" placeholder="Task Name">
-        </form>
-      </div>
-      <div class="lane">
-        <div class="header">Doing</div>
-        <div class="tasks" data-drop-zone="">
-          <div class="task" data-draggable="">Record Video</div>
+        <div class="lane">
+          <div class="header">Doing</div>
+          <div class="tasks" data-drop-zone="" data-lane-id="doing"></div>
+          <form data-task-form="">
+            <input data-task-input="" class="task-input" type="text" placeholder="Task Name">
+          </form>
         </div>
-        <form>
-          <input class="task-input" type="text" placeholder="Task Name">
-        </form>
-      </div>
-      <div class="lane">
-        <div class="header">Done</div>
-        <div class="tasks" data-drop-zone="">
-          <div class="task" data-draggable="">Plan Trello Clone Video</div>
+        <div class="lane">
+          <div class="header">Done</div>
+          <div class="tasks" data-drop-zone="" data-lane-id="done">
+            <!-- <div class="task" data-draggable>Plan Trello Clone Video</div> -->
+          </div>
+          <form data-task-form="">
+            <input data-task-input="" class="task-input" type="text" placeholder="Task Name">
+          </form>
         </div>
-        <form>
-          <input class="task-input" type="text" placeholder="Task Name">
-        </form>
       </div>
+      <img class="trash" data-trash="" src="https://img.icons8.com/external-tulpahn-flat-tulpahn/64/000000/external-bin-mobile-user-interface-tulpahn-flat-tulpahn.png">
     </div>
   </body>
 </html>

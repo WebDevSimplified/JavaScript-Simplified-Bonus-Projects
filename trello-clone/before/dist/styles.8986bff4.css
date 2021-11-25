@@ -1,30 +1,63 @@
 * {
   box-sizing: border-box;
   user-select: none;
+  padding: 0;
+  margin: 0;
 }
 
 body {
   margin: 0;
-  background-color: #CCC;
-  height: 50vh;
+  background-color: #ccc;
+  height: 100vh;
   overflow: hidden;
 }
 
+.container {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.trash {
+  width: 4rem;
+  align-self: center;
+  transition: animation 1s ease-in-out;
+}
+
+[data-trash].onhover {
+  animation-duration: 0.5s;
+  animation-name: scaleup;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes scaleup {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.2);
+  }
+}
+
 .lanes {
+  padding: 0.5rem;
+  height: 100%;
   display: flex;
   justify-content: center;
-  padding: .5rem;
-  height: 100%;
+  padding-bottom: 1em;
 }
 
 .lane {
   display: flex;
   flex-direction: column;
-  background-color: #AAA;
+  background-color: #aaa;
   flex-basis: 0;
   flex-grow: 1;
-  margin: .25rem;
-  border-radius: .25rem;
+  margin: 0.25rem;
+  border-radius: 0.25rem;
   overflow: hidden;
   max-width: 16rem;
 }
@@ -33,27 +66,27 @@ body {
   text-align: center;
   background-color: #333;
   color: white;
-  padding: .25rem;
+  padding: 0.25rem;
 }
 
 .tasks {
-  padding: 0 .25rem;
+  padding: 0 0.25rem;
   flex-grow: 1;
   overflow-y: auto;
 }
 
 .task {
-  padding: .25rem;
-  border-radius: .25rem;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
   background-color: white;
   cursor: grab;
-  margin: .25rem 0;
+  margin: 0.25rem 0;
   text-align: center;
   word-wrap: break-word;
 }
 
 .task-input {
-  padding: .3rem .5rem;
+  padding: 0.3rem 0.5rem;
   border: none;
   background-color: #333;
   color: white;
@@ -62,7 +95,7 @@ body {
 }
 
 .task-input::placeholder {
-  color: #AAA;
+  color: #aaa;
 }
 
 [data-draggable] {
@@ -75,14 +108,15 @@ body {
 
 [data-draggable].dragging {
   position: absolute;
-  opacity: .5;
+  opacity: 0.5;
   transform: rotate(5deg);
   pointer-events: none;
 }
 
 [data-draggable].ghost {
   background-color: black;
-  opacity: .25;
+  opacity: 0.25;
 }
+
 
 /*# sourceMappingURL=/styles.8986bff4.css.map */
